@@ -1,0 +1,14 @@
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\bin\Debug\net6.0\ClassLibraryModels.deps.json
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\bin\Debug\net6.0\ClassLibraryModels.runtimeconfig.json
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\bin\Debug\net6.0\ClassLibraryModels.dll
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\bin\Debug\net6.0\ClassLibraryModels.pdb
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ClassLibraryModels.csproj.AssemblyReference.cache
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ClassLibraryModels.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ClassLibraryModels.AssemblyInfoInputs.cache
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ClassLibraryModels.AssemblyInfo.cs
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ClassLibraryModels.csproj.CoreCompileInputs.cache
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ClassLibraryModels.dll
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\refint\ClassLibraryModels.dll
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ClassLibraryModels.pdb
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ClassLibraryModels.genruntimeconfig.cache
+C:\Users\DELL\source\repos\restApiProject\ClassLibraryModels\obj\Debug\net6.0\ref\ClassLibraryModels.dll
