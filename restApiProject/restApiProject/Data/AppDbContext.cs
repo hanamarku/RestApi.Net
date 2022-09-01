@@ -27,7 +27,7 @@ namespace restApiProject.Data
 
 
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
+        //public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Taskk> Tasks { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Employee_Project> Employee_Projects { get; set; }

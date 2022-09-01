@@ -12,6 +12,6 @@ namespace ClassLibraryModels
 
         [ForeignKey("EmployeeId")]
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public User Employee { get; set; }
     }
 }

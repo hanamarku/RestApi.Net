@@ -27,10 +27,20 @@ namespace restApiProject.Data.BaseRepository
         public async Task<T> GetByIdAsync(int id) => await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
 
 
-        public async Task AddAsync(T entity)
+        public async Task<ServiceResponse<string>> AddAsync(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            try
+            {
+                await _context.Set<T>().AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return response;
+
         }
 
         public async Task UpdateAsync(int id, T entity)
@@ -40,12 +50,23 @@ namespace restApiProject.Data.BaseRepository
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<ServiceResponse<string>> DeleteAsync(int id)
         {
-            var entity = await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
-            EntityEntry entityEntry = _context.Entry<T>(entity);
-            entityEntry.State = EntityState.Deleted;
-            await _context.SaveChangesAsync();
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            try
+            {
+                var entity = await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
+                EntityEntry entityEntry = _context.Entry<T>(entity);
+                entityEntry.State = EntityState.Deleted;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.Success = false;
+            }
+            return response;
+
         }
     }
 }

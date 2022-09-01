@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL\\source\\repos\\restApiProject\\ClassLibraryModels\\ClassLibraryModels.csproj": {}
+    "C:\\Users\\DELL\\source\\repos\\RestApi.Net\\restApiProject\\ClassLibraryModels\\ClassLibraryModels.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL\\source\\repos\\restApiProject\\ClassLibraryModels\\ClassLibraryModels.csproj": {
+    "C:\\Users\\DELL\\source\\repos\\RestApi.Net\\restApiProject\\ClassLibraryModels\\ClassLibraryModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\source\\repos\\restApiProject\\ClassLibraryModels\\ClassLibraryModels.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\source\\repos\\RestApi.Net\\restApiProject\\ClassLibraryModels\\ClassLibraryModels.csproj",
         "projectName": "ClassLibraryModels",
-        "projectPath": "C:\\Users\\DELL\\source\\repos\\restApiProject\\ClassLibraryModels\\ClassLibraryModels.csproj",
+        "projectPath": "C:\\Users\\DELL\\source\\repos\\RestApi.Net\\restApiProject\\ClassLibraryModels\\ClassLibraryModels.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\source\\repos\\restApiProject\\ClassLibraryModels\\obj\\",
+        "outputPath": "C:\\Users\\DELL\\source\\repos\\RestApi.Net\\restApiProject\\ClassLibraryModels\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",

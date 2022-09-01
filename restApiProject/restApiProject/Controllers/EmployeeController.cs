@@ -1,13 +1,11 @@
 ﻿using ClassLibraryModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using restApiProject.Data.Repositories;
 using restApiProject.Data.Services;
-using restApiProject.Data.ViewModels;
 
 namespace restApiProject.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     [ApiController]
     [Route("[Controller]")]
     public class EmployeeController : ControllerBase
@@ -20,41 +18,34 @@ namespace restApiProject.Controllers
         public EmployeeController(IAuthRepository authRepository, IWebHostEnvironment webHostEnvironment, IEmployeeService service)
         {
             _authRepository = authRepository;
-            webHostEnvironment = webHostEnvironment;
+            this.webHostEnvironment = webHostEnvironment;
             _service = service;
 
         }
 
-        //register usrers
 
-        [HttpPost("registerEmployee")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(RegisterVM request)
+        [HttpGet("GetAllEmplyees")]
+
+        public async Task<ActionResult<List<User>>> Get()
         {
-            string uniqueFileName = UploadedFile(request.ProfileImage);
-
-
-            var response = await _authRepository.Register(new Employee
-            {
-                Name = request.Name,
-                Lastname = request.LastName,
-                Username = request.Username,
-                EmailAddress = request.EmailAddress,
-                Role = "Employee",
-                ImageUrl = uniqueFileName,
-
-            },
-            request.Password);
-
-            if (!response.Success)
-            {
-                return BadRequest(response);
-            }
-            return Ok(response);
+            return Ok(await _service.GetAllAsync());
         }
 
 
-        [HttpPost("EditEmployee")]
-        public async Task<ServiceResponse<string>> Edit(int id, Employee employee)
+        [HttpGet("{id}")]
+
+        public async Task<ActionResult<User>> GetSingle(int id)
+        {
+            return Ok(await _service.GetByIdAsync(id));
+        }
+
+
+
+
+
+
+        [HttpPut("EditEmployee")]
+        public async Task<ServiceResponse<string>> Edit(int id, User employee)
         {
             ServiceResponse<string> response = new ServiceResponse<string>();
             if (!ModelState.IsValid)
@@ -70,7 +61,7 @@ namespace restApiProject.Controllers
 
         }
 
-        [HttpPost("DeleteEmployee")]
+        [HttpDelete("DeleteEmployee")]
         public async Task<ServiceResponse<bool>> DeleteConfirmed(int id)
         {
             ServiceResponse<bool> response = new ServiceResponse<bool>();
@@ -84,22 +75,7 @@ namespace restApiProject.Controllers
 
         }
 
-        private string UploadedFile(IFormFile ProfileImage)
-        {
-            string uniqueFileName = null;
 
-            if (ProfileImage != null)
-            {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfileImage.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    ProfileImage.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }
 
 
     }

@@ -2,9 +2,9 @@
 
 namespace restApiProject.Data.ViewModels
 {
-    public class RegisterVM
+    public class EditUser
     {
-
+        public int Id { get; set; }
         [Display(Name = "Name")]
         //[Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
@@ -21,21 +21,6 @@ namespace restApiProject.Data.ViewModels
         //[Required(ErrorMessage = "Username is required")]
         public string Username { get; set; }
 
-        //[Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
 
-        //[StringLength(500)]
-        //public string ImageUrl { get; set; } = String.Empty;
-
-        //[Required]
-        //[NotMapped]
-        //public IFormFile ProfileImage { get; set; } = null;
-
-        //[Display(Name = "Confirm password")]
-        //[Required(ErrorMessage = "Confirm password is required")]
-        //[DataType(DataType.Password)]
-        //[Compare("Password", ErrorMessage = "Passwords do not match")]
-        //public string ConfirmPassword { get; set; }
     }
 }

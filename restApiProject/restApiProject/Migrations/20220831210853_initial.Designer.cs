@@ -12,8 +12,8 @@ using restApiProject.Data;
 namespace restApiProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220825200058_seedData")]
-    partial class seedData
+    [Migration("20220831210853_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,27 +24,19 @@ namespace restApiProject.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ClassLibraryModels.Employee", b =>
+            modelBuilder.Entity("ClassLibraryModels.Employee_Project", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("EmployeeId", "ProjectId");
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("userId");
-
-                    b.ToTable("Employees");
+                    b.ToTable("Employee_Projects");
                 });
 
             modelBuilder.Entity("ClassLibraryModels.Project", b =>
@@ -54,6 +46,16 @@ namespace restApiProject.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -68,17 +70,29 @@ namespace restApiProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EmployeeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("ProjectId")
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Projectid")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("Projectid");
 
                     b.ToTable("Tasks");
                 });
@@ -94,6 +108,11 @@ namespace restApiProject.Migrations
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Lastname")
                         .IsRequired()
@@ -128,44 +147,41 @@ namespace restApiProject.Migrations
                         {
                             Id = 2,
                             EmailAddress = "null",
+                            ImageUrl = "",
                             Lastname = "lastname",
                             Name = "name",
-                            PasswordHash = new byte[] { 122, 126, 57, 16, 62, 239, 217, 49, 8, 208, 78, 162, 184, 194, 207, 188, 131, 1, 248, 218, 8, 202, 86, 26, 196, 21, 99, 1, 74, 243, 7, 164, 99, 77, 219, 127, 91, 165, 92, 158, 194, 137, 104, 47, 199, 67, 224, 43, 117, 242, 88, 241, 74, 194, 118, 59, 204, 255, 202, 216, 53, 23, 119, 89 },
-                            PasswordSalt = new byte[] { 111, 90, 2, 196, 162, 44, 250, 177, 184, 172, 104, 184, 89, 242, 200, 46, 220, 135, 49, 34, 125, 46, 80, 104, 55, 194, 147, 102, 229, 192, 51, 10, 184, 199, 225, 236, 225, 247, 158, 41, 223, 85, 243, 219, 246, 247, 229, 243, 185, 200, 126, 122, 142, 44, 223, 17, 69, 229, 237, 218, 111, 233, 2, 117, 85, 180, 242, 149, 127, 65, 140, 230, 45, 39, 21, 246, 251, 78, 154, 98, 43, 58, 50, 189, 115, 77, 231, 206, 220, 58, 69, 251, 210, 43, 166, 100, 186, 49, 65, 153, 96, 97, 37, 99, 125, 60, 143, 120, 193, 101, 206, 92, 198, 189, 109, 183, 47, 41, 99, 4, 122, 84, 185, 28, 233, 5, 105, 76 },
+                            PasswordHash = new byte[] { 42, 75, 250, 10, 29, 142, 177, 223, 96, 197, 137, 145, 225, 144, 93, 203, 151, 226, 230, 137, 37, 156, 113, 16, 32, 43, 172, 21, 147, 168, 228, 92, 140, 91, 154, 112, 125, 167, 128, 50, 203, 61, 211, 115, 180, 246, 216, 24, 76, 124, 101, 60, 207, 202, 88, 255, 200, 223, 53, 159, 13, 251, 201, 39 },
+                            PasswordSalt = new byte[] { 33, 82, 89, 189, 93, 156, 55, 94, 131, 44, 94, 72, 134, 3, 207, 179, 191, 106, 11, 78, 166, 50, 80, 169, 234, 194, 44, 93, 124, 14, 210, 209, 207, 91, 176, 136, 120, 162, 226, 110, 59, 103, 91, 54, 91, 25, 194, 116, 39, 215, 177, 156, 106, 25, 63, 163, 52, 192, 19, 217, 113, 183, 150, 141, 148, 46, 76, 99, 233, 159, 90, 223, 13, 182, 151, 162, 119, 195, 8, 104, 139, 68, 43, 86, 169, 253, 174, 128, 57, 18, 18, 75, 84, 159, 65, 171, 222, 151, 10, 53, 242, 242, 47, 237, 100, 179, 63, 236, 254, 14, 2, 65, 126, 22, 66, 7, 61, 206, 143, 176, 179, 20, 179, 195, 139, 164, 127, 64 },
                             Role = "Administrator",
                             Username = "administrator"
                         });
                 });
 
-            modelBuilder.Entity("ClassLibraryModels.Employee", b =>
+            modelBuilder.Entity("ProjectUser", b =>
                 {
-                    b.HasOne("ClassLibraryModels.Project", "Project")
-                        .WithMany("Employees")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("EmployeesId")
+                        .HasColumnType("int");
 
-                    b.HasOne("ClassLibraryModels.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ProjectsId")
+                        .HasColumnType("int");
 
-                    b.Navigation("Project");
+                    b.HasKey("EmployeesId", "ProjectsId");
 
-                    b.Navigation("user");
+                    b.HasIndex("ProjectsId");
+
+                    b.ToTable("ProjectUser");
                 });
 
-            modelBuilder.Entity("ClassLibraryModels.Taskk", b =>
+            modelBuilder.Entity("ClassLibraryModels.Employee_Project", b =>
                 {
-                    b.HasOne("ClassLibraryModels.Employee", "Employee")
-                        .WithMany("Tasks")
+                    b.HasOne("ClassLibraryModels.User", "Employee")
+                        .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ClassLibraryModels.Project", "Project")
-                        .WithMany("Tasks")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -175,15 +191,47 @@ namespace restApiProject.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("ClassLibraryModels.Employee", b =>
+            modelBuilder.Entity("ClassLibraryModels.Taskk", b =>
                 {
-                    b.Navigation("Tasks");
+                    b.HasOne("ClassLibraryModels.User", "Employee")
+                        .WithMany("Tasks")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClassLibraryModels.Project", "project")
+                        .WithMany("Tasks")
+                        .HasForeignKey("Projectid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("project");
+                });
+
+            modelBuilder.Entity("ProjectUser", b =>
+                {
+                    b.HasOne("ClassLibraryModels.User", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClassLibraryModels.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ClassLibraryModels.Project", b =>
                 {
-                    b.Navigation("Employees");
+                    b.Navigation("Tasks");
+                });
 
+            modelBuilder.Entity("ClassLibraryModels.User", b =>
+                {
                     b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618

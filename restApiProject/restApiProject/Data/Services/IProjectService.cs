@@ -10,5 +10,7 @@ namespace restApiProject.Data.Services
         Task<NewProjectDropdownsVM> GetProjectDropdownsValues();
         Task AddNewProjectAsync(NewProjectVM data);
         Task UpdateProjectAsync(NewProjectVM data);
+        Task AddNewEmployee(int projectId, AddEmplyeeToProjectVM data);
+
     }
 }

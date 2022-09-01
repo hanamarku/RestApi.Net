@@ -6,8 +6,8 @@ namespace restApiProject.Data.ViewModels
     {
         public NewProjectDropdownsVM()
         {
-            Employee = new List<Employee>();
+            Employee = new List<User>();
         }
-        public List<Employee> Employee { get; set; }
+        public List<User> Employee { get; set; }
     }
 }

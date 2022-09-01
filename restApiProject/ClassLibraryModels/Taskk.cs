@@ -10,11 +10,11 @@ namespace ClassLibraryModels
         public string Name { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime DateCreated { get; set; }
-        public int ProjectId { get; set; }
-        [ForeignKey("ProjectId")]
-        public virtual Project Project { get; set; }
-        public int EmployeeId { get; set; }
+        public int? Projectid { get; set; }
+        [ForeignKey("Projectid")]
+        public virtual Project project { get; set; }
+        public int? EmployeeId { get; set; }
         [ForeignKey("EmployeeId")]
-        public virtual Employee Employee { get; set; }
+        public virtual User Employee { get; set; }
     }
 }

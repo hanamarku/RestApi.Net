@@ -11,7 +11,7 @@ namespace restApiProject.Data.ViewModels
 
         //Relationships
         [Display(Name = "Select employees(s)")]
-        [Required(ErrorMessage = "required")]
+        //[Required(ErrorMessage = "required")]
         public List<int> EmployeesIds { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using ClassLibraryModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using restApiProject.Data.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -41,12 +43,12 @@ namespace restApiProject.Data.Repositories
         }
 
 
-        public async Task<ServiceResponse<int>> Register(Employee employee, string password)
+        public async Task<ServiceResponse<int>> Register(User employee, string password)
         {
             ServiceResponse<int> response = new ServiceResponse<int>();
 
 
-            if (await UserExists(employee.user.Username))
+            if (await UserExists(employee.Username))
             {
                 response.Success = false;
                 response.Message = "User already exist !";
@@ -54,12 +56,12 @@ namespace restApiProject.Data.Repositories
             }
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-            employee.user.PasswordHash = passwordHash;
-            employee.user.PasswordSalt = passwordSalt;
-            _context.Employees.Add(employee);
+            employee.PasswordHash = passwordHash;
+            employee.PasswordSalt = passwordSalt;
+            _context.Users.Add(employee);
             await _context.SaveChangesAsync();
 
-            response.Data = employee.user.Id;
+            response.Data = employee.Id;
             return response;
         }
 
@@ -111,6 +113,52 @@ namespace restApiProject.Data.Repositories
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<ServiceResponse<string>> UpdateUserAsync(EditUser data)
+        {
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            try
+            {
+                var employee = await _context.Users.FirstOrDefaultAsync(c => c.Id == data.Id);
+                if (employee != null)
+                {
+                    employee.Name = data.Name;
+                    employee.Lastname = data.LastName;
+                    employee.Username = data.Username;
+                    employee.EmailAddress = data.EmailAddress;
+
+
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                response.Message = e.Message;
+            }
+            return response;
+
+        }
+
+        [HttpDelete]
+
+        public async Task<ServiceResponse<string>> DeleteUser(int id)
+        {
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            try
+            {
+                var employee = await _context.Users.FirstOrDefaultAsync(c => c.Id == id);
+                if (employee != null)
+                {
+                    _context.Users.Remove(employee);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                response.Message = e.Message;
+            }
+            return response;
         }
     }
 }

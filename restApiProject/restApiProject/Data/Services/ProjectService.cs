@@ -13,6 +13,11 @@ namespace restApiProject.Data.Services
             _context = context;
         }
 
+        public Task AddNewEmployee(int projectId, AddEmplyeeToProjectVM data)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task AddNewProjectAsync(NewProjectVM data)
         {
             var newProject = new Project()
@@ -49,7 +54,7 @@ namespace restApiProject.Data.Services
         {
             var result = new NewProjectDropdownsVM()
             {
-                Employee = await _context.Employees.OrderBy(n => n.Name).ToListAsync()
+                Employee = await _context.Users.OrderBy(n => n.Name).ToListAsync()
 
             };
             return result;
@@ -67,7 +72,7 @@ namespace restApiProject.Data.Services
                 await _context.SaveChangesAsync();
             }
 
-            //remove existing characters
+            //remove existing employees
             var existingEmployess = _context.Employee_Projects.Where(n => n.ProjectId == data.Id).ToList();
             _context.Employee_Projects.RemoveRange(existingEmployess);
             await _context.SaveChangesAsync();
@@ -84,5 +89,17 @@ namespace restApiProject.Data.Services
             }
             await _context.SaveChangesAsync();
         }
+
+        //public async Task AddNewEmployee(int projectId, AddEmplyeeToProjectVM data)
+        //{
+        //    var project_emp = new EmployeeProjectService()
+        //    {
+        //        ProjectId = projectId,
+        //        EmployeeId = data.EmployeeId
+        //    };
+        //    await _context.Employee_Projects.AddAsync(project_emp);
+        //    await _context.SaveChangesAsync();
+
+        //}
     }
 }

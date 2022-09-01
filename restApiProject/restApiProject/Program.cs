@@ -41,6 +41,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IEmployeeProjectService, EmployeeProjectService>();
 builder.Services.AddMvc();
 builder.Services.AddControllers();
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -59,7 +61,8 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 builder.Services.AddRazorPages();
-
+builder.Services.AddControllers();
+builder.Services.AddRazorPages();
 
 
 // Configure the HTTP request pipeline.

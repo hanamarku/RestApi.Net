@@ -48,7 +48,7 @@ namespace restApiProject.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateUpdated")
+                    b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -71,7 +71,8 @@ namespace restApiProject.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("IsCompleted")
@@ -81,14 +82,15 @@ namespace restApiProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProjectId")
+                    b.Property<int?>("Projectid")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("Projectid");
 
                     b.ToTable("Tasks");
                 });
@@ -101,13 +103,14 @@ namespace restApiProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Lastname")
                         .IsRequired()
@@ -137,60 +140,39 @@ namespace restApiProject.Migrations
 
                     b.ToTable("Users");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-
                     b.HasData(
                         new
                         {
                             Id = 2,
                             EmailAddress = "null",
+                            ImageUrl = "",
                             Lastname = "lastname",
                             Name = "name",
-                            PasswordHash = new byte[] { 76, 13, 158, 199, 83, 244, 123, 15, 120, 190, 48, 90, 18, 125, 117, 73, 175, 206, 104, 190, 21, 173, 30, 18, 168, 239, 234, 134, 47, 86, 254, 146, 211, 68, 234, 197, 182, 237, 213, 173, 36, 25, 150, 89, 225, 211, 143, 190, 238, 74, 0, 69, 102, 135, 99, 197, 173, 163, 190, 114, 133, 220, 17, 14 },
-                            PasswordSalt = new byte[] { 210, 239, 70, 92, 144, 191, 222, 110, 139, 175, 65, 73, 6, 178, 40, 241, 44, 176, 4, 50, 59, 167, 100, 208, 195, 10, 223, 106, 43, 10, 138, 73, 196, 23, 174, 250, 51, 143, 147, 96, 54, 220, 73, 3, 216, 163, 146, 165, 158, 183, 233, 229, 94, 57, 203, 23, 166, 52, 111, 211, 81, 58, 59, 117, 39, 180, 99, 10, 249, 232, 184, 10, 6, 116, 219, 25, 89, 150, 43, 166, 254, 213, 246, 37, 240, 25, 27, 0, 63, 114, 173, 77, 160, 40, 108, 200, 179, 39, 87, 14, 102, 230, 126, 180, 158, 80, 210, 211, 69, 112, 7, 121, 41, 19, 176, 176, 211, 65, 193, 136, 17, 234, 185, 185, 73, 96, 15, 22 },
+                            PasswordHash = new byte[] { 42, 75, 250, 10, 29, 142, 177, 223, 96, 197, 137, 145, 225, 144, 93, 203, 151, 226, 230, 137, 37, 156, 113, 16, 32, 43, 172, 21, 147, 168, 228, 92, 140, 91, 154, 112, 125, 167, 128, 50, 203, 61, 211, 115, 180, 246, 216, 24, 76, 124, 101, 60, 207, 202, 88, 255, 200, 223, 53, 159, 13, 251, 201, 39 },
+                            PasswordSalt = new byte[] { 33, 82, 89, 189, 93, 156, 55, 94, 131, 44, 94, 72, 134, 3, 207, 179, 191, 106, 11, 78, 166, 50, 80, 169, 234, 194, 44, 93, 124, 14, 210, 209, 207, 91, 176, 136, 120, 162, 226, 110, 59, 103, 91, 54, 91, 25, 194, 116, 39, 215, 177, 156, 106, 25, 63, 163, 52, 192, 19, 217, 113, 183, 150, 141, 148, 46, 76, 99, 233, 159, 90, 223, 13, 182, 151, 162, 119, 195, 8, 104, 139, 68, 43, 86, 169, 253, 174, 128, 57, 18, 18, 75, 84, 159, 65, 171, 222, 151, 10, 53, 242, 242, 47, 237, 100, 179, 63, 236, 254, 14, 2, 65, 126, 22, 66, 7, 61, 206, 143, 176, 179, 20, 179, 195, 139, 164, 127, 64 },
                             Role = "Administrator",
                             Username = "administrator"
                         });
                 });
 
-            modelBuilder.Entity("EmployeeProject", b =>
+            modelBuilder.Entity("ProjectUser", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("EmployeesId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProjectsId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProjectId", "ProjectsId");
+                    b.HasKey("EmployeesId", "ProjectsId");
 
                     b.HasIndex("ProjectsId");
 
-                    b.ToTable("EmployeeProject");
-                });
-
-            modelBuilder.Entity("ClassLibraryModels.Employee", b =>
-                {
-                    b.HasBaseType("ClassLibraryModels.User");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("userId");
-
-                    b.HasDiscriminator().HasValue("Employee");
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("ClassLibraryModels.Employee_Project", b =>
                 {
-                    b.HasOne("ClassLibraryModels.Employee", "Employee")
+                    b.HasOne("ClassLibraryModels.User", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -209,28 +191,28 @@ namespace restApiProject.Migrations
 
             modelBuilder.Entity("ClassLibraryModels.Taskk", b =>
                 {
-                    b.HasOne("ClassLibraryModels.Employee", "Employee")
+                    b.HasOne("ClassLibraryModels.User", "Employee")
                         .WithMany("Tasks")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClassLibraryModels.Project", "Project")
+                    b.HasOne("ClassLibraryModels.Project", "project")
                         .WithMany("Tasks")
-                        .HasForeignKey("ProjectId")
+                        .HasForeignKey("Projectid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Employee");
 
-                    b.Navigation("Project");
+                    b.Navigation("project");
                 });
 
-            modelBuilder.Entity("EmployeeProject", b =>
+            modelBuilder.Entity("ProjectUser", b =>
                 {
-                    b.HasOne("ClassLibraryModels.Employee", null)
+                    b.HasOne("ClassLibraryModels.User", null)
                         .WithMany()
-                        .HasForeignKey("ProjectId")
+                        .HasForeignKey("EmployeesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -241,23 +223,12 @@ namespace restApiProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ClassLibraryModels.Employee", b =>
-                {
-                    b.HasOne("ClassLibraryModels.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("ClassLibraryModels.Project", b =>
                 {
                     b.Navigation("Tasks");
                 });
 
-            modelBuilder.Entity("ClassLibraryModels.Employee", b =>
+            modelBuilder.Entity("ClassLibraryModels.User", b =>
                 {
                     b.Navigation("Tasks");
                 });

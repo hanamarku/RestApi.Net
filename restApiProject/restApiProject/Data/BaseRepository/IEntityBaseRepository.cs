@@ -14,6 +14,6 @@ namespace restApiProject.Data.BaseRepository
 
         Task UpdateAsync(int id, T entity);
 
-        Task DeleteAsync(int id);
+        Task<ServiceResponse<string>> DeleteAsync(int id);
     }
 }
