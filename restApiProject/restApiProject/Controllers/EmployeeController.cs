@@ -45,33 +45,26 @@ namespace restApiProject.Controllers
 
 
         [HttpPut("EditEmployee")]
-        public async Task<ServiceResponse<string>> Edit(int id, User employee)
+        public async Task<ActionResult<ServiceResponse<string>>> Edit(int id, User employee)
         {
-            ServiceResponse<string> response = new ServiceResponse<string>();
-            if (!ModelState.IsValid)
+            var response = await _service.UpdateAsync(id, employee);
+            if (response.Message != "")
             {
-                response.Success = false;
-                response.Message = "Model state is not valid !";
-                return response;
+                return NotFound(response);
             }
-
-            await _service.UpdateAsync(id, employee);
-            response.Message = "Edited Succesfully !";
-            return response;
-
+            return Ok(response);
         }
 
-        [HttpDelete("DeleteEmployee")]
-        public async Task<ServiceResponse<bool>> DeleteConfirmed(int id)
-        {
-            ServiceResponse<bool> response = new ServiceResponse<bool>();
-            var employee = await _service.GetByIdAsync(id);
-            if (employee == null)
-                response.Success = false;
-            return response;
-            await _service.DeleteAsync(id);
 
-            return response;
+        [HttpDelete("DeleteEmployee")]
+        public async Task<ActionResult<ServiceResponse<string>>> DeleteConfirmed(int id)
+        {
+            var response = await _service.DeleteAsync(id);
+            if (response.Message != "")
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
 
         }
 

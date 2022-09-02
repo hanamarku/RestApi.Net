@@ -10,9 +10,9 @@ namespace restApiProject.Data.BaseRepository
 
         Task<T> GetByIdAsync(int id);
 
-        Task AddAsync(T entity);
+        Task<ServiceResponse<string>> AddAsync(T entity);
 
-        Task UpdateAsync(int id, T entity);
+        Task<ServiceResponse<string>> UpdateAsync(int id, T entity);
 
         Task<ServiceResponse<string>> DeleteAsync(int id);
     }

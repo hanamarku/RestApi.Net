@@ -43,11 +43,20 @@ namespace restApiProject.Data.BaseRepository
 
         }
 
-        public async Task UpdateAsync(int id, T entity)
+        public async Task<ServiceResponse<string>> UpdateAsync(int id, T entity)
         {
-            EntityEntry entityEntry = _context.Entry<T>(entity);
-            entityEntry.State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            try
+            {
+                EntityEntry entityEntry = _context.Entry<T>(entity);
+                entityEntry.State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return response;
         }
 
         public async Task<ServiceResponse<string>> DeleteAsync(int id)

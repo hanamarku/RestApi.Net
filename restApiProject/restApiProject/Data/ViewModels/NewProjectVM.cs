@@ -4,9 +4,8 @@ namespace restApiProject.Data.ViewModels
 {
     public class NewProjectVM
     {
-        public int Id { get; set; }
         [Display(Name = "Project name")]
-        [Required(ErrorMessage = "Name is required")]
+        //[Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
         //Relationships

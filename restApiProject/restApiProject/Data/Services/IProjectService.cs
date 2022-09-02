@@ -8,9 +8,11 @@ namespace restApiProject.Data.Services
     {
         Task<Project> GetProjectByIdAsync(int id);
         Task<NewProjectDropdownsVM> GetProjectDropdownsValues();
-        Task AddNewProjectAsync(NewProjectVM data);
-        Task UpdateProjectAsync(NewProjectVM data);
-        Task AddNewEmployee(int projectId, AddEmplyeeToProjectVM data);
+        Task<ServiceResponse<string>> AddNewProjectAsync(NewProjectVM data);
+        Task<ServiceResponse<string>> UpdateProjectAsync(int id, EditProject data);
+        Task<ServiceResponse<string>> AddEmployeeToProject(int ProjectId, int EmployeeId);
+        Task<ServiceResponse<string>> RemoveEmployeeFromProject(int ProjectId, int EmployeeId);
+        Task<ServiceResponse<string>> DeleteProjectAsync(int id);
 
     }
 }

@@ -18,6 +18,20 @@ namespace restApiProject.Controllers
         }
 
 
+        [HttpGet("gettasks")]
+        public ActionResult<List<Taskk>> GetTasksOfEmployees(int id)
+        {
+            var tasks = _context.Tasks.Where(x => x.EmployeeId == id).ToList();
+            return tasks;
+        }
+
+        [HttpGet("GetAllEmplyees")]
+        public async Task<ActionResult<List<User>>> GetEm()
+        {
+            return Ok(await _service.GetAllAsync());
+        }
+
+
         [HttpPost("CreateTask")]
         public async Task<ActionResult<ServiceResponse<string>>> createTask(NewTaskVM data)
         {
@@ -28,6 +42,16 @@ namespace restApiProject.Controllers
             }
             return Ok(response);
         }
+
+
+
+
+        //Employee Area
+        //[HttpPost]
+        //Task<ActionResult<ServiceResponse<string>>> Employee_CreateTask(EmployeeNewTask data)
+        //{
+
+        //}
 
 
         [HttpPut("Mark Task As Completed {id}")]

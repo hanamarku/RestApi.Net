@@ -1,4 +1,5 @@
 ﻿using ClassLibraryModels;
+using Microsoft.AspNetCore.Mvc;
 using restApiProject.Data.BaseRepository;
 using restApiProject.Data.ViewModels;
 
@@ -29,7 +30,6 @@ namespace restApiProject.Data.Services
                 //var emp = _context.Projects.FirstOrDefault(c => c.Id == id);
                 await _context.Tasks.AddAsync(tasku);
                 await _context.SaveChangesAsync();
-                response.Message = "Ok";
             }
             catch (Exception ex)
             {
@@ -37,6 +37,59 @@ namespace restApiProject.Data.Services
             }
             return response;
         }
+
+        [HttpPost]
+
+        public Task<ServiceResponse<string>> Employee_CreateTask(EmployeeNewTask data)
+        {
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            try
+            {
+                var tasku = new Taskk()
+                {
+                    Name = data.Name,
+                    IsCompleted = false,
+                    DateCreated = DateTime.Now,
+                    Projectid = data.ProjectId,
+                    EmployeeId = null
+                };
+
+                //var emp = _context.Projects.FirstOrDefault(c => c.Id == id);
+                await _context.Tasks.AddAsync(tasku);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+
+        //public Task<ServiceResponse<string>> Employee_CreateTask(EmployeeNewTask data)
+        //{
+        //    ServiceResponse<string> response = new ServiceResponse<string>();
+        //    try
+        //    {
+        //        var tasku = new Taskk()
+        //        {
+        //            Name = data.Name,
+        //            IsCompleted = false,
+        //            DateCreated = DateTime.Now,
+        //            Projectid = data.ProjectId,
+        //            EmployeeId = data.EmployeeId
+        //        };
+
+        //        //var emp = _context.Projects.FirstOrDefault(c => c.Id == id);
+        //        await _context.Tasks.AddAsync(tasku);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Message = ex.Message;
+        //    }
+        //    return response;
+        //}
 
         public async Task<ServiceResponse<string>> MarkTaskAsCompleted(int id)
         {
