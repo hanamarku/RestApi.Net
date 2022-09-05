@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace restApiProject.Data.ViewModels
 {
@@ -29,8 +30,8 @@ namespace restApiProject.Data.ViewModels
         //public string ImageUrl { get; set; } = String.Empty;
 
         ////[Required]
-        ////[NotMapped]
-        //public IFormFile ProfileImage { get; set; } = null;
+        [NotMapped]
+        public IFormFile ProfileImage { get; set; }
 
         //[Display(Name = "Confirm password")]
         //[Required(ErrorMessage = "Confirm password is required")]

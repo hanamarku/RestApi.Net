@@ -34,12 +34,10 @@ namespace restApiProject.Controllers
         }
 
 
-        //register users
-
         [HttpPost("registerEmployee"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(RegisterVM request)
         {
-            //string uniqueFileName = UploadedFile(request.ProfileImage);
+            string uniqueFileName = UploadedFile(request.ProfileImage);
 
             User emp = new User()
             {
@@ -47,7 +45,8 @@ namespace restApiProject.Controllers
                 Lastname = request.LastName,
                 Username = request.Username,
                 EmailAddress = request.EmailAddress,
-                Role = "Employee"
+                Role = "Employee",
+                ProfileImage = request.ProfileImage,
                 //ImageUrl = uniqueFileName,
             };
 

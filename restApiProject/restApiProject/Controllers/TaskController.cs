@@ -96,7 +96,7 @@ namespace restApiProject.Controllers
             return tasksOfPro;
         }
 
-        [HttpGet("GetTasksProjectEmployee"), Authorize(Roles = "Employee")]
+        [HttpGet("GetProjectEmployee"), Authorize(Roles = "Employee")]
         public async Task<ActionResult<List<Employee_Project>>> GetProjectsOfEmployee()
         {
             var tasksOfPro = await _service.GetProjectsOfEmployee();

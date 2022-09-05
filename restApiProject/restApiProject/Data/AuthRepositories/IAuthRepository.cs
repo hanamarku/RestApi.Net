@@ -12,5 +12,6 @@ namespace restApiProject.Data.Repositories
         Task<bool> UserExists(string username);
         Task<ServiceResponse<string>> UpdateUserAsync(EditUser data);
         Task<ServiceResponse<string>> DeleteUser(int id);
+
     }
 }
