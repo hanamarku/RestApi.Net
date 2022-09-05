@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ClassLibraryModels
 {
@@ -17,12 +15,12 @@ namespace ClassLibraryModels
         public string Role { get; set; }
 
 
-        [StringLength(500)]
-        public string ImageUrl { get; set; } = String.Empty;
+        //[StringLength(500)]
+        //public string ImageUrl { get; set; } = String.Empty;
 
         //[Required]
-        [NotMapped]
-        public IFormFile ProfileImage { get; set; } = null;
+        //[NotMapped]
+        //public IFormFile ProfileImage { get; set; } = null;
         //public int ProjectId { get; set; }
         //[ForeignKey("ProjectId")]
         public virtual List<Project>? Projects { get; set; }

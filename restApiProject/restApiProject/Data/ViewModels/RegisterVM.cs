@@ -28,8 +28,8 @@ namespace restApiProject.Data.ViewModels
         //[StringLength(500)]
         //public string ImageUrl { get; set; } = String.Empty;
 
-        //[Required]
-        //[NotMapped]
+        ////[Required]
+        ////[NotMapped]
         //public IFormFile ProfileImage { get; set; } = null;
 
         //[Display(Name = "Confirm password")]

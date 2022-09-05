@@ -1,7 +1,7 @@
 ﻿using ClassLibraryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using restApiProject.Data.Repositories;
-using restApiProject.Data.Services;
 using restApiProject.Data.ViewModels;
 
 namespace restApiProject.Controllers
@@ -12,13 +12,12 @@ namespace restApiProject.Controllers
     {
         private readonly IAuthRepository _authRepository;
         private readonly IWebHostEnvironment webHostEnvironment;
-        private readonly IEmployeeService _service;
 
-        public AuthController(IAuthRepository authRepository, IWebHostEnvironment webHostEnvironment, IEmployeeService employeeService)
+
+        public AuthController(IAuthRepository authRepository, IWebHostEnvironment webHostEnvironment)
         {
             _authRepository = authRepository;
             this.webHostEnvironment = webHostEnvironment;
-            employeeService = _service;
         }
 
 
@@ -37,7 +36,7 @@ namespace restApiProject.Controllers
 
         //register users
 
-        [HttpPost("registerEmployee")]
+        [HttpPost("registerEmployee"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(RegisterVM request)
         {
             //string uniqueFileName = UploadedFile(request.ProfileImage);
@@ -54,17 +53,6 @@ namespace restApiProject.Controllers
 
             var response = await _authRepository.Register(emp, request.Password);
 
-
-
-            //Name = request.Name,
-            //Lastname = request.LastName,
-            //Username = request.Username,
-            //EmailAddress = request.EmailAddress
-            ////Role = "Employee"
-            ////ImageUrl = uniqueFileName,
-
-
-
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -73,7 +61,8 @@ namespace restApiProject.Controllers
         }
 
 
-        [HttpPut("EditEmployee")]
+
+        [HttpPut("EditEmployee"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ServiceResponse<string>>> UpdateUserAsync(EditUser data)
         {
             var response = await _authRepository.UpdateUserAsync(data);
@@ -84,7 +73,7 @@ namespace restApiProject.Controllers
             return Ok(response);
         }
 
-        [HttpPut("DeleteEmployee {id}")]
+        [HttpPut("DeleteEmployee {id}"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ServiceResponse<string>>> RemoveUserAsync(int id)
         {
             var response = await _authRepository.DeleteUser(id);
@@ -112,6 +101,15 @@ namespace restApiProject.Controllers
                 }
             }
             return uniqueFileName;
+        }
+
+
+        [HttpGet("Get User Id"), Authorize]
+        public int GetUserName()
+        {
+            var result = _authRepository.GetUserId();
+
+            return result;
         }
     }
 

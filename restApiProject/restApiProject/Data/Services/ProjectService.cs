@@ -9,10 +9,13 @@ namespace restApiProject.Data.Services
     public class ProjectService : EntityBaseRepository<Project>, IProjectService
     {
         private readonly AppDbContext _context;
-        public ProjectService(AppDbContext context) : base(context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ProjectService(AppDbContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
+
 
         public async Task<ServiceResponse<string>> AddEmployeeToProject(int ProjectId, int EmployeeId)
         {
@@ -166,7 +169,6 @@ namespace restApiProject.Data.Services
                 response.Success = false;
             }
             return response;
-
         }
 
 

@@ -33,6 +33,7 @@ namespace restApiProject.Data
         public virtual DbSet<Employee_Project> Employee_Projects { get; set; }
 
 
+
         private void CreatePasswordHash2(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())

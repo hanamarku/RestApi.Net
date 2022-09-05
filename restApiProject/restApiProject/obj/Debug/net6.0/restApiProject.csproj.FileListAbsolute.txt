@@ -136,3 +136,16 @@ C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\obj\Debug\n
 C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\obj\Debug\net6.0\restApiProject.pdb
 C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\obj\Debug\net6.0\restApiProject.genruntimeconfig.cache
 C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\obj\Debug\net6.0\ref\restApiProject.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\Google.Protobuf.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\K4os.Compression.LZ4.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\K4os.Compression.LZ4.Streams.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\K4os.Hash.xxHash.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\Microsoft.AspNet.Identity.Core.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\MySql.Data.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\Ubiety.Dns.Core.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\ZstdNet.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\Scrutor.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\DELL\source\repos\RestApi.Net\restApiProject\restApiProject\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

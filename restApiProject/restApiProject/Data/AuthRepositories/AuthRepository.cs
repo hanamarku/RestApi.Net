@@ -1,22 +1,26 @@
-﻿using ClassLibraryModels;
+﻿
+using ClassLibraryModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using restApiProject.Data.BaseRepository;
 using restApiProject.Data.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace restApiProject.Data.Repositories
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthRepository : EntityBaseRepository<User>, IAuthRepository
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
-        public AuthRepository(AppDbContext context, IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public AuthRepository(AppDbContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {
             _context = context;
             _configuration = configuration;
-
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<ServiceResponse<string>> Login(string username, string password)
         {
@@ -97,7 +101,8 @@ namespace restApiProject.Data.Repositories
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Role)
             };
             SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
 
@@ -105,7 +110,7 @@ namespace restApiProject.Data.Repositories
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddDays(5),
                 SigningCredentials = creds
             };
 
@@ -160,5 +165,16 @@ namespace restApiProject.Data.Repositories
             }
             return response;
         }
+
+        public User GetUser(LoginVM loginVM)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Username.Equals
+            (loginVM.Username, StringComparison.OrdinalIgnoreCase)
+            && VerifyPasswordHash(loginVM.Password, u.PasswordHash, u.PasswordSalt));
+
+            return user;
+        }
+
+
     }
 }

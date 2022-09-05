@@ -1,4 +1,5 @@
 ﻿using ClassLibraryModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using restApiProject.Data.Services;
 using restApiProject.Data.ViewModels;
@@ -12,12 +13,10 @@ namespace restApiProject.Controllers
     {
 
         private readonly IProjectService _service;
-        private readonly IEmployeeProjectService _employeeProjectService;
 
-        public ProjectController(IProjectService service, IEmployeeProjectService employeeProjectService)
+        public ProjectController(IProjectService service)
         {
             _service = service;
-            _employeeProjectService = employeeProjectService;
         }
 
 
@@ -41,7 +40,7 @@ namespace restApiProject.Controllers
         //Project
 
 
-        [HttpPost("CreateProject")]
+        [HttpPost("CreateProject"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ServiceResponse<bool>>> Create(NewProjectVM project)
         {
 
@@ -60,7 +59,7 @@ namespace restApiProject.Controllers
         }
 
 
-        [HttpPut("EditProject")]
+        [HttpPut("EditProject"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ServiceResponse<string>>> Edit(int id, EditProject project)
         {
             var response = await _service.UpdateProjectAsync(id, project);
@@ -74,29 +73,7 @@ namespace restApiProject.Controllers
 
 
 
-        //[HttpPut("EditProject")]
-        //public async Task<ServiceResponse<string>> Edit(int id, NewProjectVM project)
-        //{
-        //    ServiceResponse<string> response = new ServiceResponse<string>();
-        //    if (id != project.Id)
-        //        response.Success = false;
-        //    response.Message = "Not found";
-        //    return response;
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        var employeeDropdownData = await _service.GetProjectDropdownsValues();
-        //        //ViewBag.Employees = new SelectList(employeeDropdownData.Employee, "Id", "Username");
-        //        response.Success = false;
-        //    }
-
-        //    await _service.UpdateProjectAsync(project);
-        //    //response.Data = project;
-        //    response.Message = "Success";
-        //    return response;
-        //}
-
-        [HttpDelete("DeleteProject")]
+        [HttpDelete("DeleteProject"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ServiceResponse<bool>>> DeleteConfirmed(int id)
         {
             var response = await _service.DeleteProjectAsync(id);
@@ -109,7 +86,7 @@ namespace restApiProject.Controllers
 
 
 
-        [HttpGet("ProjectDetails")]
+        [HttpGet("ProjectDetails"), Authorize(Roles = "Administrator")]
 
         public async Task<ActionResult<ServiceResponse<Project>>> Details(int id)
         {
@@ -120,7 +97,7 @@ namespace restApiProject.Controllers
         }
 
 
-        [HttpDelete("Remove Employee From Project{ProjectId}/{EmployeeId}")]
+        [HttpDelete("Remove Employee From Project{ProjectId}/{EmployeeId}"), Authorize(Roles = "Administrator")]
 
         public async Task<ActionResult<ServiceResponse<string>>> RemoveEmployeeFromProject(int ProjectId, int EmployeeId)
         {
@@ -132,7 +109,7 @@ namespace restApiProject.Controllers
             return Ok(response);
         }
 
-        [HttpPost("AddEmployeeToProject {ProjectId} {EmployeeId}")]
+        [HttpPost("AddEmployeeToProject {ProjectId} {EmployeeId}"), Authorize(Roles = "Administrator")]
 
         public async Task<ActionResult<ServiceResponse<string>>> AddEmployeeToProject(int ProjectId, int EmployeeId)
         {

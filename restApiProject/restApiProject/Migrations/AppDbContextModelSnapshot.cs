@@ -48,7 +48,7 @@ namespace restApiProject.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateUpdated")
+                    b.Property<DateTime?>("DateUpdated")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -71,8 +71,10 @@ namespace restApiProject.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("EmployeeId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("IsCompleted")
@@ -148,8 +150,8 @@ namespace restApiProject.Migrations
                             ImageUrl = "",
                             Lastname = "lastname",
                             Name = "name",
-                            PasswordHash = new byte[] { 42, 75, 250, 10, 29, 142, 177, 223, 96, 197, 137, 145, 225, 144, 93, 203, 151, 226, 230, 137, 37, 156, 113, 16, 32, 43, 172, 21, 147, 168, 228, 92, 140, 91, 154, 112, 125, 167, 128, 50, 203, 61, 211, 115, 180, 246, 216, 24, 76, 124, 101, 60, 207, 202, 88, 255, 200, 223, 53, 159, 13, 251, 201, 39 },
-                            PasswordSalt = new byte[] { 33, 82, 89, 189, 93, 156, 55, 94, 131, 44, 94, 72, 134, 3, 207, 179, 191, 106, 11, 78, 166, 50, 80, 169, 234, 194, 44, 93, 124, 14, 210, 209, 207, 91, 176, 136, 120, 162, 226, 110, 59, 103, 91, 54, 91, 25, 194, 116, 39, 215, 177, 156, 106, 25, 63, 163, 52, 192, 19, 217, 113, 183, 150, 141, 148, 46, 76, 99, 233, 159, 90, 223, 13, 182, 151, 162, 119, 195, 8, 104, 139, 68, 43, 86, 169, 253, 174, 128, 57, 18, 18, 75, 84, 159, 65, 171, 222, 151, 10, 53, 242, 242, 47, 237, 100, 179, 63, 236, 254, 14, 2, 65, 126, 22, 66, 7, 61, 206, 143, 176, 179, 20, 179, 195, 139, 164, 127, 64 },
+                            PasswordHash = new byte[] { 162, 96, 7, 33, 169, 200, 94, 196, 71, 56, 187, 127, 92, 113, 141, 170, 34, 144, 248, 177, 33, 252, 180, 172, 48, 115, 119, 110, 37, 251, 52, 44, 161, 236, 4, 23, 59, 113, 54, 76, 209, 124, 144, 104, 254, 235, 218, 25, 210, 130, 0, 192, 125, 212, 139, 182, 212, 240, 17, 79, 179, 208, 99, 220 },
+                            PasswordSalt = new byte[] { 148, 142, 130, 218, 239, 136, 191, 75, 111, 166, 213, 192, 159, 116, 25, 146, 16, 89, 63, 55, 242, 58, 166, 58, 252, 45, 31, 127, 223, 228, 155, 255, 87, 85, 11, 192, 27, 200, 95, 177, 7, 131, 138, 228, 121, 193, 71, 187, 163, 37, 217, 58, 147, 21, 143, 66, 121, 125, 66, 181, 205, 201, 190, 39, 241, 150, 142, 246, 32, 23, 176, 137, 24, 249, 0, 189, 43, 111, 83, 127, 177, 98, 236, 80, 24, 224, 4, 75, 165, 50, 74, 140, 217, 195, 194, 155, 191, 153, 186, 255, 97, 159, 28, 41, 27, 232, 95, 74, 250, 191, 144, 150, 233, 142, 250, 104, 125, 19, 95, 68, 127, 239, 6, 198, 195, 157, 168, 70 },
                             Role = "Administrator",
                             Username = "administrator"
                         });
@@ -193,9 +195,7 @@ namespace restApiProject.Migrations
                 {
                     b.HasOne("ClassLibraryModels.User", "Employee")
                         .WithMany("Tasks")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("ClassLibraryModels.Project", "project")
                         .WithMany("Tasks")

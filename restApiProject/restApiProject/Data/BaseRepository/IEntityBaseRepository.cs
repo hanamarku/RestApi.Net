@@ -5,6 +5,7 @@ namespace restApiProject.Data.BaseRepository
 {
     public interface IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
+        public int GetUserId();
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);
 

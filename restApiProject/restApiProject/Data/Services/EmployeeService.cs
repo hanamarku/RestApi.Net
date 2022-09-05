@@ -6,9 +6,11 @@ namespace restApiProject.Data.Services
     public class EmployeeService : EntityBaseRepository<User>, IEmployeeService
     {
         private readonly AppDbContext _context;
-        public EmployeeService(AppDbContext context) : base(context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public EmployeeService(AppDbContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
