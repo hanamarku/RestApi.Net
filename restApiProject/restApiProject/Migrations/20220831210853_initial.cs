@@ -106,10 +106,7 @@ namespace restApiProject.Migrations
                 table: "Employee_Projects",
                 column: "ProjectId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectUser_ProjectsId",
-                table: "ProjectUser",
-                column: "ProjectsId");
+
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_EmployeeId",
@@ -127,8 +124,7 @@ namespace restApiProject.Migrations
             migrationBuilder.DropTable(
                 name: "Employee_Projects");
 
-            migrationBuilder.DropTable(
-                name: "ProjectUser");
+
 
             migrationBuilder.DropTable(
                 name: "Tasks");

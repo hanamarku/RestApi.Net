@@ -35,9 +35,10 @@ namespace restApiProject.Controllers
 
 
         [HttpPost("registerEmployee"), Authorize(Roles = "Administrator")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(RegisterVM request)
+        //
+        public async Task<ActionResult<ServiceResponse<int>>> Register([FromForm] RegisterVM request)
         {
-            string uniqueFileName = UploadedFile(request.ProfileImage);
+            string uniqueFileName = _authRepository.UploadedFile(request.ProfileImage);
 
             User emp = new User()
             {
@@ -46,8 +47,7 @@ namespace restApiProject.Controllers
                 Username = request.Username,
                 EmailAddress = request.EmailAddress,
                 Role = "Employee",
-                ProfileImage = request.ProfileImage,
-                //ImageUrl = uniqueFileName,
+                ImageUrl = uniqueFileName,
             };
 
             var response = await _authRepository.Register(emp, request.Password);
@@ -60,11 +60,34 @@ namespace restApiProject.Controllers
         }
 
 
+        //public void uploadFile([FromForm] IFormFile ProfileImage)
+        //{
+        //    try
+        //    {
+        //        string path = webHostEnvironment.WebRootPath + "\\uploads\\";
+        //        if (!Directory.Exists(path))
+        //        {
+        //            Directory.CreateDirectory(path);
+        //        }
+        //        using (FileStream fileStream = System.IO.File.Create(path + ProfileImage.FileName))
+        //        {
+        //            ProfileImage.CopyTo(fileStream);
+        //            fileStream.Flush();
 
-        [HttpPut("EditEmployee"), Authorize(Roles = "Administrator")]
-        public async Task<ActionResult<ServiceResponse<string>>> UpdateUserAsync(EditUser data)
+        //        }
+        //    }
+        //    catch (Exception e) { }
+
+        //}
+
+
+        [HttpPut("EditEmployee"), Authorize]
+        public async Task<ActionResult<ServiceResponse<string>>> UpdateUserAsync(int userId, [FromForm] RegisterVM data)
         {
-            var response = await _authRepository.UpdateUserAsync(data);
+
+            //var employee = await _context.Users.FirstOrDefaultAsync(c => c.Id == userId);
+
+            var response = await _authRepository.UpdateUserAsync(userId, data);
             if (response.Message != "")
             {
                 return BadRequest(response);
@@ -85,22 +108,24 @@ namespace restApiProject.Controllers
 
 
 
-        private string UploadedFile(IFormFile ProfileImage)
-        {
-            string uniqueFileName = null;
+        //public string UploadedFile([FromForm] IFormFile ProfileImage)
+        //{
+        //    string uniqueFileName = null;
 
-            if (ProfileImage != null)
-            {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfileImage.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    ProfileImage.CopyTo(fileStream);
-                }
-            }
-            return uniqueFileName;
-        }
+        //    if (ProfileImage != null)
+        //    {
+        //        //var appDataPath = Server.MapPath("~/App_Data/");
+        //        webHostEnvironment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "images");
+        //        string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath);
+        //        uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfileImage.FileName;
+        //        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            ProfileImage.CopyTo(fileStream);
+        //        }
+        //    }
+        //    return uniqueFileName;
+        //}
 
 
         [HttpGet("Get User Id"), Authorize]

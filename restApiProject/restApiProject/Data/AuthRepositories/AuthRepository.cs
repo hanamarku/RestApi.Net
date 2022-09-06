@@ -15,11 +15,13 @@ namespace restApiProject.Data.Repositories
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public AuthRepository(AppDbContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
+        public AuthRepository(AppDbContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {
             _context = context;
             _configuration = configuration;
+            this.webHostEnvironment = webHostEnvironment;
             _httpContextAccessor = httpContextAccessor;
         }
         public async Task<ServiceResponse<string>> Login(string username, string password)
@@ -120,22 +122,31 @@ namespace restApiProject.Data.Repositories
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<ServiceResponse<string>> UpdateUserAsync(EditUser data)
+        public async Task<ServiceResponse<string>> UpdateUserAsync(int userId, RegisterVM data)
         {
             ServiceResponse<string> response = new ServiceResponse<string>();
             try
             {
-                var employee = await _context.Users.FirstOrDefaultAsync(c => c.Id == data.Id);
+                var employee = await _context.Users.FirstOrDefaultAsync(c => c.Id == userId);
                 if (employee != null)
                 {
+                    string uniqueFileName = UploadedFile(data.ProfileImage);
                     employee.Name = data.Name;
                     employee.Lastname = data.LastName;
                     employee.Username = data.Username;
                     employee.EmailAddress = data.EmailAddress;
-
+                    employee.Username = data.Username;
+                    employee.ImageUrl = uniqueFileName;
+                    CreatePasswordHash(data.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                    employee.PasswordHash = passwordHash;
+                    employee.PasswordSalt = passwordSalt;
 
                     await _context.SaveChangesAsync();
                 }
+
+
+
+                response.Success = true;
             }
             catch (Exception e)
             {
@@ -145,7 +156,7 @@ namespace restApiProject.Data.Repositories
 
         }
 
-        [HttpDelete]
+        [HttpDelete("RemoveUser")]
 
         public async Task<ServiceResponse<string>> DeleteUser(int id)
         {
@@ -175,6 +186,25 @@ namespace restApiProject.Data.Repositories
             return user;
         }
 
+
+        public string UploadedFile([FromForm] IFormFile ProfileImage)
+        {
+            string uniqueFileName = null;
+
+            if (ProfileImage != null)
+            {
+                //var appDataPath = Server.MapPath("~/App_Data/");
+                webHostEnvironment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "images");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath);
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfileImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    ProfileImage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
 
     }
 }

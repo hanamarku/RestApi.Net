@@ -12,8 +12,8 @@ using restApiProject.Data;
 namespace restApiProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220904172453_null")]
-    partial class @null
+    [Migration("20220906105742_mig 5")]
+    partial class mig5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,7 +77,6 @@ namespace restApiProject.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EmployeeId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("IsCompleted")
@@ -153,14 +152,27 @@ namespace restApiProject.Migrations
                             ImageUrl = "",
                             Lastname = "lastname",
                             Name = "name",
-                            PasswordHash = new byte[] { 231, 137, 24, 38, 153, 10, 83, 131, 73, 91, 205, 117, 188, 227, 4, 35, 18, 163, 175, 204, 63, 157, 25, 70, 137, 61, 105, 189, 108, 145, 6, 49, 34, 111, 24, 221, 26, 109, 169, 239, 99, 132, 173, 175, 49, 114, 76, 148, 0, 94, 181, 67, 45, 42, 160, 83, 216, 75, 177, 39, 220, 164, 127, 202 },
-                            PasswordSalt = new byte[] { 3, 12, 95, 74, 84, 160, 119, 27, 233, 49, 143, 19, 116, 71, 248, 146, 81, 251, 206, 122, 16, 112, 205, 235, 126, 244, 37, 49, 54, 194, 64, 136, 108, 48, 28, 145, 126, 113, 121, 67, 101, 14, 18, 80, 173, 181, 231, 38, 2, 150, 130, 144, 125, 63, 185, 66, 7, 186, 36, 31, 222, 232, 228, 171, 6, 226, 215, 9, 131, 242, 138, 94, 65, 200, 104, 141, 121, 213, 72, 124, 126, 8, 1, 247, 243, 9, 73, 137, 144, 135, 201, 156, 131, 219, 65, 141, 154, 246, 201, 34, 60, 180, 215, 44, 50, 81, 16, 209, 75, 152, 117, 128, 217, 66, 183, 119, 65, 2, 137, 4, 77, 47, 154, 190, 183, 32, 133, 229 },
+                            PasswordHash = new byte[] { 42, 77, 150, 252, 253, 20, 173, 202, 196, 153, 211, 111, 164, 102, 190, 69, 133, 1, 21, 188, 242, 229, 164, 247, 138, 237, 17, 155, 218, 240, 82, 175, 15, 67, 151, 227, 93, 149, 248, 37, 58, 228, 48, 7, 54, 181, 59, 246, 62, 249, 159, 12, 6, 11, 51, 225, 16, 81, 198, 36, 253, 97, 247, 195 },
+                            PasswordSalt = new byte[] { 195, 168, 173, 53, 219, 147, 213, 137, 243, 115, 205, 8, 243, 46, 168, 104, 157, 97, 66, 78, 156, 202, 78, 218, 43, 5, 143, 166, 4, 35, 43, 148, 249, 95, 178, 223, 100, 165, 53, 122, 75, 147, 119, 168, 226, 38, 236, 255, 48, 218, 11, 239, 140, 137, 94, 248, 103, 99, 25, 81, 100, 217, 23, 92, 199, 42, 139, 166, 119, 172, 95, 100, 82, 84, 142, 172, 185, 221, 40, 54, 235, 190, 84, 21, 252, 219, 188, 41, 205, 97, 81, 186, 28, 108, 252, 228, 214, 95, 197, 220, 35, 142, 166, 220, 67, 55, 155, 51, 243, 166, 64, 39, 235, 82, 22, 172, 201, 194, 145, 150, 222, 180, 116, 223, 144, 3, 12, 213 },
                             Role = "Administrator",
                             Username = "administrator"
                         });
                 });
 
+            modelBuilder.Entity("ProjectUser", b =>
+                {
+                    b.Property<int>("EmployeesId")
+                        .HasColumnType("int");
 
+                    b.Property<int>("ProjectsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EmployeesId", "ProjectsId");
+
+                    b.HasIndex("ProjectsId");
+
+                    b.ToTable("ProjectUser");
+                });
 
             modelBuilder.Entity("ClassLibraryModels.Employee_Project", b =>
                 {
@@ -185,9 +197,7 @@ namespace restApiProject.Migrations
                 {
                     b.HasOne("ClassLibraryModels.User", "Employee")
                         .WithMany("Tasks")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("ClassLibraryModels.Project", "project")
                         .WithMany("Tasks")
@@ -200,7 +210,20 @@ namespace restApiProject.Migrations
                     b.Navigation("project");
                 });
 
+            modelBuilder.Entity("ProjectUser", b =>
+                {
+                    b.HasOne("ClassLibraryModels.User", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
+                    b.HasOne("ClassLibraryModels.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
             modelBuilder.Entity("ClassLibraryModels.Project", b =>
                 {

@@ -33,10 +33,5 @@ namespace restApiProject.Data.ViewModels
         [NotMapped]
         public IFormFile ProfileImage { get; set; }
 
-        //[Display(Name = "Confirm password")]
-        //[Required(ErrorMessage = "Confirm password is required")]
-        //[DataType(DataType.Password)]
-        //[Compare("Password", ErrorMessage = "Passwords do not match")]
-        //public string ConfirmPassword { get; set; }
     }
 }

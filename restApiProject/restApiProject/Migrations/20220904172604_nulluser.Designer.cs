@@ -159,20 +159,7 @@ namespace restApiProject.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
-                {
-                    b.Property<int>("EmployeesId")
-                        .HasColumnType("int");
 
-                    b.Property<int>("ProjectsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeesId", "ProjectsId");
-
-                    b.HasIndex("ProjectsId");
-
-                    b.ToTable("ProjectUser");
-                });
 
             modelBuilder.Entity("ClassLibraryModels.Employee_Project", b =>
                 {
@@ -210,20 +197,7 @@ namespace restApiProject.Migrations
                     b.Navigation("project");
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
-                {
-                    b.HasOne("ClassLibraryModels.User", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
-                    b.HasOne("ClassLibraryModels.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
 
             modelBuilder.Entity("ClassLibraryModels.Project", b =>
                 {

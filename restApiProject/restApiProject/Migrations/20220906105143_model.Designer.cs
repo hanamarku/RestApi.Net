@@ -12,8 +12,8 @@ using restApiProject.Data;
 namespace restApiProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220904172453_null")]
-    partial class @null
+    [Migration("20220906105143_model")]
+    partial class model
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,7 +77,6 @@ namespace restApiProject.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EmployeeId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<bool>("IsCompleted")
@@ -133,6 +132,9 @@ namespace restApiProject.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -153,8 +155,9 @@ namespace restApiProject.Migrations
                             ImageUrl = "",
                             Lastname = "lastname",
                             Name = "name",
-                            PasswordHash = new byte[] { 231, 137, 24, 38, 153, 10, 83, 131, 73, 91, 205, 117, 188, 227, 4, 35, 18, 163, 175, 204, 63, 157, 25, 70, 137, 61, 105, 189, 108, 145, 6, 49, 34, 111, 24, 221, 26, 109, 169, 239, 99, 132, 173, 175, 49, 114, 76, 148, 0, 94, 181, 67, 45, 42, 160, 83, 216, 75, 177, 39, 220, 164, 127, 202 },
-                            PasswordSalt = new byte[] { 3, 12, 95, 74, 84, 160, 119, 27, 233, 49, 143, 19, 116, 71, 248, 146, 81, 251, 206, 122, 16, 112, 205, 235, 126, 244, 37, 49, 54, 194, 64, 136, 108, 48, 28, 145, 126, 113, 121, 67, 101, 14, 18, 80, 173, 181, 231, 38, 2, 150, 130, 144, 125, 63, 185, 66, 7, 186, 36, 31, 222, 232, 228, 171, 6, 226, 215, 9, 131, 242, 138, 94, 65, 200, 104, 141, 121, 213, 72, 124, 126, 8, 1, 247, 243, 9, 73, 137, 144, 135, 201, 156, 131, 219, 65, 141, 154, 246, 201, 34, 60, 180, 215, 44, 50, 81, 16, 209, 75, 152, 117, 128, 217, 66, 183, 119, 65, 2, 137, 4, 77, 47, 154, 190, 183, 32, 133, 229 },
+                            PasswordHash = new byte[] { 221, 142, 133, 238, 236, 215, 181, 72, 179, 152, 148, 231, 234, 63, 159, 66, 128, 118, 138, 60, 254, 135, 169, 223, 152, 62, 211, 217, 120, 55, 178, 72, 14, 242, 246, 79, 15, 143, 137, 54, 197, 25, 200, 50, 205, 255, 90, 59, 7, 23, 36, 149, 215, 13, 168, 6, 58, 229, 37, 75, 93, 12, 99, 85 },
+                            PasswordSalt = new byte[] { 254, 2, 100, 187, 144, 144, 141, 100, 79, 63, 178, 202, 16, 46, 100, 52, 42, 145, 51, 178, 110, 21, 242, 84, 160, 122, 189, 98, 93, 32, 70, 231, 48, 143, 148, 114, 103, 54, 123, 244, 63, 53, 68, 23, 248, 50, 71, 93, 202, 98, 121, 98, 151, 1, 12, 128, 222, 131, 119, 163, 108, 21, 107, 249, 147, 213, 117, 15, 67, 83, 143, 215, 215, 9, 248, 141, 153, 221, 5, 223, 184, 122, 138, 57, 255, 21, 27, 229, 52, 30, 123, 101, 173, 227, 239, 88, 103, 242, 229, 46, 100, 212, 29, 41, 140, 250, 246, 179, 184, 63, 207, 48, 151, 89, 46, 162, 47, 113, 103, 13, 126, 54, 189, 167, 195, 168, 249, 125 },
+                            ProjectId = 0,
                             Role = "Administrator",
                             Username = "administrator"
                         });
@@ -185,9 +188,7 @@ namespace restApiProject.Migrations
                 {
                     b.HasOne("ClassLibraryModels.User", "Employee")
                         .WithMany("Tasks")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("ClassLibraryModels.Project", "project")
                         .WithMany("Tasks")
@@ -199,7 +200,6 @@ namespace restApiProject.Migrations
 
                     b.Navigation("project");
                 });
-
 
 
             modelBuilder.Entity("ClassLibraryModels.Project", b =>

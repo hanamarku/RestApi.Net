@@ -22,8 +22,6 @@ namespace ClassLibraryModels
 
         [NotMapped]
         public IFormFile ProfileImage { get; set; } = null;
-        public int ProjectId { get; set; }
-        [ForeignKey("ProjectId")]
         public virtual List<Project>? Projects { get; set; }
         public virtual List<Taskk>? Tasks { get; set; }
     }

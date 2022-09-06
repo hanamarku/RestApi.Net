@@ -37,6 +37,13 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+builder.Services.AddSwaggerGen(o => o.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+{
+    Title = "MyAPI",
+    Version = "V1",
+    Description = "Desc1"
+}));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -80,7 +87,7 @@ builder.Services.AddDistributedMemoryCache();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(o => o.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
 }
 app.UseCors("NgOrigins");
 app.UseHttpsRedirection();

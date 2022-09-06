@@ -1,4 +1,5 @@
 ﻿using ClassLibraryModels;
+using Microsoft.AspNetCore.Mvc;
 using restApiProject.Data.BaseRepository;
 using restApiProject.Data.ViewModels;
 
@@ -10,8 +11,9 @@ namespace restApiProject.Data.Repositories
         Task<ServiceResponse<int>> Register(User employee, string password);
         Task<ServiceResponse<string>> Login(string username, string password);
         Task<bool> UserExists(string username);
-        Task<ServiceResponse<string>> UpdateUserAsync(EditUser data);
+        Task<ServiceResponse<string>> UpdateUserAsync(int userId, RegisterVM data);
         Task<ServiceResponse<string>> DeleteUser(int id);
+        public string UploadedFile([FromForm] IFormFile ProfileImage);
 
     }
 }

@@ -47,20 +47,7 @@ namespace restApiProject.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("ClassLibraryModels.ProjectUser", b =>
-                {
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("EmployeeId", "ProjectId");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Employee_Projects");
-                });
 
             modelBuilder.Entity("ClassLibraryModels.Taskk", b =>
                 {
@@ -160,39 +147,9 @@ namespace restApiProject.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
-                {
-                    b.Property<int>("EmployeesId")
-                        .HasColumnType("int");
 
-                    b.Property<int>("ProjectsId")
-                        .HasColumnType("int");
 
-                    b.HasKey("EmployeesId", "ProjectsId");
 
-                    b.HasIndex("ProjectsId");
-
-                    b.ToTable("ProjectUser");
-                });
-
-            modelBuilder.Entity("ClassLibraryModels.ProjectUser", b =>
-                {
-                    b.HasOne("ClassLibraryModels.User", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClassLibraryModels.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Project");
-                });
 
             modelBuilder.Entity("ClassLibraryModels.Taskk", b =>
                 {
@@ -213,20 +170,7 @@ namespace restApiProject.Migrations
                     b.Navigation("project");
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
-                {
-                    b.HasOne("ClassLibraryModels.User", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
-                    b.HasOne("ClassLibraryModels.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
 
             modelBuilder.Entity("ClassLibraryModels.Project", b =>
                 {
